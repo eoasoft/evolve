@@ -32,7 +32,7 @@ class Hra_EmployeeController extends Zend_Controller_Action
             $file_name = $file['name'];
             $file_extension = strrchr($file_name, ".");
             
-            if ($file_extension != '.jpg') {
+            /* if ($file_extension != '.jpg') {
                 $result = array(
                         'success'   => false,
                         'info'      => '格式错误，请选择格式为jpg的相片文件！'
@@ -41,7 +41,7 @@ class Hra_EmployeeController extends Zend_Controller_Action
                 echo Zend_Json::encode($result);
                 
                 exit;
-            }
+            } */
     
             $h = new Application_Model_Helpers();
             $tmp_file_name = $h->getMicrotimeStr().$file_extension;

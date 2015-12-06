@@ -12,7 +12,6 @@ class Product_CatalogController extends Zend_Controller_Action
         
         $this->view->salesDisable = 1;
         $this->view->pmDisable = 1;
-        $this->view->reviewDisable = 1;
         $this->view->adminDisable = 1;
         
         $this->view->user_id = 0;
@@ -37,7 +36,7 @@ class Product_CatalogController extends Zend_Controller_Action
             if(Application_Model_User::checkPermissionByRoleName('系统管理员')){
                 $this->view->salesDisable = 0;
                 $this->view->pmDisable = 0;
-                $this->view->reviewDisable = 0;
+                $this->view->adminDisable = 0;
             }
         }
     }
