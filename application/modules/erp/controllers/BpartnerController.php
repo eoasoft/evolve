@@ -21,26 +21,34 @@ class Erp_BpartnerController extends Zend_Controller_Action
         if(isset($user_session->user_info)){
             $this->view->user_id = $user_session->user_info['user_id'];
             
-            if(Application_Model_User::checkPermissionByRoleName('业务伙伴管理员')){
+            if ($user_session->user_info['isSuperAdmin']) {
                 $this->view->bpartnerAdminDisabled = 0;
-                $this->view->supplierView = 1;
-                $this->view->customerView = 1;
-            }
-            
-            if(Application_Model_User::checkPermissionByRoleName('业务伙伴-查看-供应商')){
-                $this->view->supplierView = 1;
-            }
-            
-            if(Application_Model_User::checkPermissionByRoleName('业务伙伴-查看-客户')){
-                $this->view->customerView = 1;
-            }
-            
-            if(Application_Model_User::checkPermissionByRoleName('供应商管理员') || Application_Model_User::checkPermissionByRoleName('系统管理员')){
                 $this->view->supplierAdmin = 1;
-            }
-            
-            if(Application_Model_User::checkPermissionByRoleName('客户管理员') || Application_Model_User::checkPermissionByRoleName('系统管理员')){
                 $this->view->customerAdmin = 1;
+                $this->view->supplierView = 1;
+                $this->view->customerView = 1;
+            } else {
+                if(Application_Model_User::checkPermissionByRoleName('业务伙伴管理员')){
+                    $this->view->bpartnerAdminDisabled = 0;
+                    $this->view->supplierView = 1;
+                    $this->view->customerView = 1;
+                }
+                
+                if(Application_Model_User::checkPermissionByRoleName('业务伙伴-查看-供应商')){
+                    $this->view->supplierView = 1;
+                }
+                
+                if(Application_Model_User::checkPermissionByRoleName('业务伙伴-查看-客户')){
+                    $this->view->customerView = 1;
+                }
+                
+                if(Application_Model_User::checkPermissionByRoleName('供应商管理员') || Application_Model_User::checkPermissionByRoleName('系统管理员')){
+                    $this->view->supplierAdmin = 1;
+                }
+                
+                if(Application_Model_User::checkPermissionByRoleName('客户管理员') || Application_Model_User::checkPermissionByRoleName('系统管理员')){
+                    $this->view->customerAdmin = 1;
+                }
             }
         }
     }
