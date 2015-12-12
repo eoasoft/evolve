@@ -18,25 +18,31 @@ class Product_CatalogController extends Zend_Controller_Action
         
         if(isset($user_session->user_info)){
             $this->view->user_id = $user_session->user_info['user_id'];
-        
-            if(Application_Model_User::checkPermissionByRoleName('产品中心-市场') || Application_Model_User::checkPermissionByRoleName('产品中心-工程师')){
-                $this->view->salesDisable = 0;
-            }
-        
-            if(Application_Model_User::checkPermissionByRoleName('产品中心-PM')){
-                $this->view->adminDisable = 0;
-                $this->view->salesDisable = 0;
-                $this->view->pmDisable = 0;
-            }
-        
-            /* if(Application_Model_User::checkPermissionByRoleName('产品中心-审核')){
-                $this->view->reviewDisable = 0;
-            } */
-        
-            if(Application_Model_User::checkPermissionByRoleName('系统管理员')){
+            
+            if ($user_session->user_info['isSuperAdmin']) {
                 $this->view->salesDisable = 0;
                 $this->view->pmDisable = 0;
                 $this->view->adminDisable = 0;
+            } else {
+                if(Application_Model_User::checkPermissionByRoleName('产品中心-市场') || Application_Model_User::checkPermissionByRoleName('产品中心-工程师')){
+                    $this->view->salesDisable = 0;
+                }
+            
+                if(Application_Model_User::checkPermissionByRoleName('产品中心-PM')){
+                    $this->view->adminDisable = 0;
+                    $this->view->salesDisable = 0;
+                    $this->view->pmDisable = 0;
+                }
+            
+                /* if(Application_Model_User::checkPermissionByRoleName('产品中心-审核')){
+                    $this->view->reviewDisable = 0;
+                } */
+            
+                if(Application_Model_User::checkPermissionByRoleName('系统管理员')){
+                    $this->view->salesDisable = 0;
+                    $this->view->pmDisable = 0;
+                    $this->view->adminDisable = 0;
+                }
             }
         }
     }

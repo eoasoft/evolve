@@ -135,12 +135,17 @@ class Home_Model_Menu extends Application_Model_Db
         
         $data = $this->fetchAll($sql)->toArray();
         
+        $user_session = new Zend_Session_Namespace('user');
+        $isSuperAdmin = $user_session->user_info['isSuperAdmin'];
+        $userRole = $user_session->user_info['user_role'];
+        $roleIds = array_column($userRole, 'id');
+        
         for($i = 0; $i < count($data); $i++){
             $id = $data[$i]['id'];
             
             // 当菜单为启用时，检查用户菜单使用权限
             if(!$data[$i]['disabled']){
-                $data[$i]['disabled'] = $this->checkUserMenuPermissonByMenuId($id) ? 0 : 1;
+                $data[$i]['disabled'] = $isSuperAdmin ? 0 : ($this->checkUserMenuPermissonByMenuId($id, $roleIds) ? 0 : 1);
             }
             
             $data[$i]['id'] = 'mainMenu_'.$id;
@@ -154,20 +159,16 @@ class Home_Model_Menu extends Application_Model_Db
         return $data;
     }
     
-    public function checkUserMenuPermissonByMenuId($menuId)
+    public function checkUserMenuPermissonByMenuId($menuId, $roleIds)
     {
-        $user_session = new Zend_Session_Namespace('user');
-        $userRole = $user_session->user_info['user_role'];
-        
         $menuRole = new Home_Model_Menurole();
-        
         $roles = $menuRole->getRoleOfMenu($menuId, 'id');
         
-        foreach ($roles as $r){
-            foreach ($userRole as $u){
-                if($u['id'] == $r['id']){
-                    return true;
-                }
+        $menuRoleIds = array_column($roles, 'id');
+        
+        foreach ($menuRoleIds as $id) {
+            if (in_array($id, $roleIds)) {
+                return true;
             }
         }
         
