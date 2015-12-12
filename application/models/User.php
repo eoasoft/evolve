@@ -239,7 +239,6 @@ class Application_Model_User extends Application_Model_Db
             $result['user_info']['user_role'] = $this->getUserRole($data['id']);
             $result['user_info']['md5_key'] = $md5_key;
             $roleNames = array_column($result['user_info']['user_role'], 'name');
-            $roleIds = array_column($userRole, 'id');
             $result['user_info']['isSuperAdmin'] = in_array('超级管理员', $roleNames);
         }
         
