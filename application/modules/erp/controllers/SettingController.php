@@ -16,9 +16,13 @@ class Erp_SettingController extends Zend_Controller_Action
         
         if(isset($user_session->user_info)){
             $this->view->user_id = $user_id;
-        
-            if(Application_Model_User::checkPermissionByRoleName('系统管理员') || Application_Model_User::checkPermissionByRoleName('人事管理员')){
+            
+            if ($user_session->user_info['isSuperAdmin']) {
                 $this->view->admin = 1;
+            } else {
+                if(Application_Model_User::checkPermissionByRoleName('系统管理员') || Application_Model_User::checkPermissionByRoleName('人事管理员')){
+                    $this->view->admin = 1;
+                }
             }
         }
         

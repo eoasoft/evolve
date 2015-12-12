@@ -41,6 +41,7 @@ Ext.define('Catalog', {
              {name: "description_customer"}, 
              {name: "developmode_id"}, 
              {name: "stage_id"}, 
+             {name: "stage_name"}, 
              {name: "reviewer"}, 
              {name: "can_review"}, 
              {name: "review_info"}, 
@@ -1081,7 +1082,6 @@ var catalogGrid = Ext.define('KitchenSink.view.grid.LockingGrid', {
     }, {
         text: '产品阶段',
         dataIndex: 'stage_name',
-        renderer: stageRender,
         items: {
         	xtype: 'combobox',
             id: 'search_stage_id',
