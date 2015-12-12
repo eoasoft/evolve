@@ -22,10 +22,16 @@ class User_AttendanceController extends Zend_Controller_Action
         
         if(isset($user_session->user_info)){
             $this->view->user_id = $user_id;
-        
-            if(Application_Model_User::checkPermissionByRoleName('系统管理员') || Application_Model_User::checkPermissionByRoleName('人事主管')){
+            
+            if ($user_session->user_info['isSuperAdmin']) {
                 $this->view->hraAdmin = 1;
+            } else {
+                if(Application_Model_User::checkPermissionByRoleName('系统管理员') || Application_Model_User::checkPermissionByRoleName('人事主管')){
+                    $this->view->hraAdmin = 1;
+                }
             }
+        
+            
         }
         
         $user = new Application_Model_User();
