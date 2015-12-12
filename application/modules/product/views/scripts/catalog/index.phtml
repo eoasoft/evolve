@@ -861,7 +861,7 @@ var catalogGrid = Ext.define('KitchenSink.view.grid.LockingGrid', {
         		Ext.MessageBox.alert('错误', '请选择项目！');
             }else if(selection.length > 1){
         		Ext.MessageBox.alert('错误', '不能多选！');
-            }else if(selection[0].get('auditor_id') == null){
+            }else if(selection[0].get('review') != 2){
         		Ext.MessageBox.alert('错误', '当前记录未审核，不能查看或维护！');
             }else{
                 var catalog_id = selection[0].get('id');
@@ -1080,7 +1080,7 @@ var catalogGrid = Ext.define('KitchenSink.view.grid.LockingGrid', {
         width: 120
     }, {
         text: '产品阶段',
-        dataIndex: 'stage_id',
+        dataIndex: 'stage_name',
         renderer: stageRender,
         items: {
         	xtype: 'combobox',
