@@ -114,7 +114,7 @@ class Hra_Model_Workday extends Application_Model_Db
         $c_rest_from_sec = $c_rest_from ? strtotime($c_rest_from) : 0;
         
         // 规定工作小时数：用于根据小时数计算天数
-        $c_hours = round(((strtotime($c_work_to) - strtotime($c_work_from)) - ($c_rest_to_sec - $c_rest_from_sec)) / 3600, 2);
+        $c_hours = round(((strtotime($c_work_to) - strtotime($c_work_from)) - ($c_rest_to_sec - $c_rest_from_sec)) / 3600, 4);
         
         // 实际工作小时数
         $w_hours = 0;
@@ -133,7 +133,7 @@ class Hra_Model_Workday extends Application_Model_Db
                     
                     if(strtotime($work_to) <= strtotime($c_rest_from) || strtotime($work_from) >= strtotime($c_rest_to)){
                         // 时间范围只属于上午或下午：工作截止时间小于公司规定休息起始时间（上午）或工作起始时间大于公司规定休息截止时间（下午）
-                        $w_hours = round((strtotime($to) - strtotime($from)) / 3600, 2);
+                        $w_hours = round((strtotime($to) - strtotime($from)) / 3600, 4);
                     }else{
                         // 上午工作小时数
                         $am_w_hours = 0;
@@ -141,18 +141,18 @@ class Hra_Model_Workday extends Application_Model_Db
                         $pm_w_hours = 0;
                         // 获取上午工作小时数
                         if(strtotime($from) < strtotime($c_rest_from)){
-                            $am_w_hours = round((strtotime($c_rest_from) - strtotime($from)) / 3600, 2);
+                            $am_w_hours = round((strtotime($c_rest_from) - strtotime($from)) / 3600, 4);
                         }
                         // 获取下午工作小时数
                         if(strtotime($c_rest_to) < strtotime($to)){
-                            $pm_w_hours = round((strtotime($to) - strtotime($c_rest_to)) / 3600, 2);
+                            $pm_w_hours = round((strtotime($to) - strtotime($c_rest_to)) / 3600, 4);
                         }
                         // 获取一天内总工作小时数
                         $w_hours += $am_w_hours + $pm_w_hours;
                     }
                 }else{
                     // 当没规定午休时间时：根据起始时间和截止时间获取小时数
-                    $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 2);
+                    $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 4);
                 }
             }else{
                 // 上午工作小时数
@@ -163,15 +163,15 @@ class Hra_Model_Workday extends Application_Model_Db
                 // 如果当前获取类别针对加班
                 if($work_day_type == 1){
                     if(strtotime($work_from) >= strtotime($c_work_to) || strtotime($work_to) <= strtotime($c_work_from)){
-                        $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 2);
+                        $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 4);
                     }else{
                         // 获取上午工作小时数：规定上班时间前的工作小时数
                         if(strtotime($c_work_from) > strtotime($work_from)){
-                            $am_w_hours = round((strtotime($c_work_from) - strtotime($work_from)) / 3600, 2);
+                            $am_w_hours = round((strtotime($c_work_from) - strtotime($work_from)) / 3600, 4);
                         }
                         // 获取下午工作小时数：规定下班时间后的工作小时数
                         if(strtotime($c_work_to) < strtotime($work_to)){
-                            $pm_w_hours = round((strtotime($work_to) - strtotime($c_work_to)) / 3600, 2);
+                            $pm_w_hours = round((strtotime($work_to) - strtotime($c_work_to)) / 3600, 4);
                         }
                         $w_hours += $am_w_hours + $pm_w_hours;
                     }
@@ -180,23 +180,23 @@ class Hra_Model_Workday extends Application_Model_Db
                     if($c_rest_from && $c_rest_to){
                         // 获取上午工作小时数：规定午休起始时间前的工作小时数
                         if(strtotime($work_from) < strtotime($c_rest_from)){
-                            $am_w_hours = round((strtotime($c_rest_from) - strtotime($work_from)) / 3600, 2);
+                            $am_w_hours = round((strtotime($c_rest_from) - strtotime($work_from)) / 3600, 4);
                         }
                         // 获取下午工作小时数：固定午休结束时间后的工作小时数
                         if(strtotime($c_rest_to) < strtotime($work_to)){
-                            $pm_w_hours = round((strtotime($work_to) - strtotime($c_rest_to)) / 3600, 2);
+                            $pm_w_hours = round((strtotime($work_to) - strtotime($c_rest_to)) / 3600, 4);
                         }
                         // 获取一天内总工作小时数
                         $w_hours += $am_w_hours + $pm_w_hours;
                     }else{
                         // 当没规定午休时间时：根据起始时间和截止时间获取小时数
-                        $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 2);
+                        $w_hours = round((strtotime($work_to) - strtotime($work_from)) / 3600, 4);
                     }
                 }
             }
         }
         
-        $qty = round($w_hours / $c_hours, 2);
+        $qty = round($w_hours / $c_hours, 4);
         $qty_hours = $w_hours;
         
         return array('qty' => $qty, 'qty_hours' => $qty_hours);
@@ -238,7 +238,7 @@ class Hra_Model_Workday extends Application_Model_Db
                 
                 // 获取工作日设置（暂时统一员工和工人的工作日设置）
                 //$workDayRes = $this->fetchAll("employment_type = ".$userType." and day = '".$date."'");
-                $workDayRes = $this->fetchAll("employment_type = 1 and day = '".$date."'");// 职员、工人工作日设置相同
+                $workDayRes = $this->fetchAll("day = '".$date."'");// 职员、工人工作日设置相同
                 
                 if($workDayRes->count() > 0){
                     $workDayInfo = $workDayRes->toArray();
@@ -379,7 +379,7 @@ class Hra_Model_Workday extends Application_Model_Db
                                 $c_rest_from_sec = $c_rest_from ? strtotime($c_rest_from) : 0;
                                 
                                 // 规定工作小时数：用于根据小时数计算天数
-                                $c_hours = round(((strtotime($c_work_to) - strtotime($c_work_from)) - ($c_rest_to_sec - $c_rest_from_sec)) / 3600, 2);
+                                $c_hours = round(((strtotime($c_work_to) - strtotime($c_work_from)) - ($c_rest_to_sec - $c_rest_from_sec)) / 3600, 4);
                                 
                                 $qty_hours = 0;
                                 
@@ -390,7 +390,7 @@ class Hra_Model_Workday extends Application_Model_Db
                                 }
                                 
                                 $workDayQty_hours += $qty_hours;
-                                $workDayQty += round($qty_hours / $c_hours, 2);
+                                $workDayQty += round($qty_hours / $c_hours, 4);
                             }
                         }else{
                             $qty = $this->getWorkdayQty($work_from, $work_to, $c_work_from, $c_work_to, $c_rest_from, $c_rest_to, 'overtime', $workDayInfo[0]['type']);
