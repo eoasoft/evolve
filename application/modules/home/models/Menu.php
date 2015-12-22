@@ -48,7 +48,7 @@ class Home_Model_Menu extends Application_Model_Db
                     ->joinLeft(array('t3' => $this->_dbprefix.'employee'), "t2.employee_id = t3.id", array('creater' => 'cname'))
                     ->joinLeft(array('t4' => $this->_dbprefix.'user'), "t1.update_user = t4.id", array('updater_id' => 'id'))
                     ->joinLeft(array('t5' => $this->_dbprefix.'employee'), "t4.employee_id = t5.id", array('updater' => 'cname'))
-                    ->where("t1.parent_id = ".$parentId)
+                    ->where("t1.parent_id = ".$parentId . " and t1.active = 1")
                     ->order(array('t1.order'));
         
         $data = $this->fetchAll($sql)->toArray();
@@ -130,7 +130,7 @@ class Home_Model_Menu extends Application_Model_Db
                             'handler',
                             'url',
                             'params'))
-                    ->where("parent_id = ".$parent_id)
+                    ->where("parent_id = ".$parent_id . " and active = 1")
                     ->order(array('order'));
         
         $data = $this->fetchAll($sql)->toArray();
