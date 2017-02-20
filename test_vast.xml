@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST version="2.0">
+    <Ad id="237">
+        <InLine>
+            <AdSystem version="1.0">StaticVAST</AdSystem>
+            <AdTitle>SnoopLionVideo</AdTitle>
+            <Description>Proxying a Video</Description>
+            <Impression id="Impression"><![CDATA[http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=riis&pl=VAST&optOut=0&pos=9810&c=24&ai=19215012&pluid=0&ord=208931780&dg=2080008&ta=-1&sessionid=6024167402570434882&pcp=&vurl=]]></Impression>
+            <Creatives>
+                <Creative AdID="19215012" sequence="1" id="TPqTlGKoEulCnSmfXqmU">
+                    <Linear>
+                        <Duration>00:00:30</Duration>
+                        <TrackingEvents>
+                            <Tracking event="creativeView"><![CDATA[http://www.foo.com/?VIEW]]></Tracking>
+                            <Tracking event="start"><![CDATA[http://www.foo.com/?START]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[http://www.foo.com/?PCT_25]]></Tracking>
+                        </TrackingEvents>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[http://www.foo.com]]></ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" width="480" height="360" type="video/mp4" bitrate="534" scalable="true" maintainAspectRatio="true"><![CDATA[http://playtime.tubemogul.com/ad_promoted_videos/100242_L9RyZnW9dpBL20sZ8p1T_1333645559.mp4]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+                <Creative AdID="19215012" sequence="1" id="19215012">
+                    <CompanionAds>
+                        <Companion height="250" width="300" id="11223344">
+                            <IFrameResource><![CDATA[http://nativenewsonline.net/wp-content/uploads/2013/11/Ad-MediumRectangle-300x250.jpg]]>
+                            </IFrameResource>
+                        </Companion>
+                    </CompanionAds>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
